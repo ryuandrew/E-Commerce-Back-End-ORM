@@ -27,21 +27,20 @@ router.get("/:id", (req, res) => {
   Category.findByPk(req.params.id,{
     include:[
       {
-        model: Product,
-        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
+        model: Product //will include all attributes
       }
     ]
   })
     .then(dbCategory => {
       if(!dbCategory) {
-        res.status(404).json({ message: 'No category found with that id!' });
+        res.status(404).json({ message: 'No category found with that id!' }); //not found
         return;
       }
       res.json(dbCategory);
     })
-    .catch(err => {
+    .catch(err => {  //if db sends an error
       console.log(err);
-      res.status(500).json({ msg: "an error occured", err });
+      res.status(500).json({ msg: "an error occured", err }); //server side error
     });
 });
 
